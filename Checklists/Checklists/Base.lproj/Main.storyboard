@@ -37,8 +37,8 @@
                             </tableViewCell>
                         </prototypes>
                         <connections>
-                            <outlet property="dataSource" destination="PBA-a1-99U" id="eJy-6A-yjy"/>
-                            <outlet property="delegate" destination="PBA-a1-99U" id="6xK-6z-sFI"/>
+                            <outlet property="dataSource" destination="PBA-a1-99U" id="7EX-R0-wzI"/>
+                            <outlet property="delegate" destination="PBA-a1-99U" id="WIY-eC-HqL"/>
                         </connections>
                     </tableView>
                 </tableViewController>
