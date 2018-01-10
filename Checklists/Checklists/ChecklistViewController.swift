@@ -12,6 +12,9 @@ class ChecklistViewController: UITableViewController {
     
     var items: [ChecklistItem]
 
+    @IBAction func addItem(_ sender: Any) {
+        print("added item")
+    }
     
     required init?(coder aDecoder: NSCoder) {
         
@@ -72,6 +75,7 @@ class ChecklistViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
 
     override func didReceiveMemoryWarning() {
