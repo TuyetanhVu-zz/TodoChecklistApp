@@ -46,6 +46,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="yFM-y3-dCl" kind="show" identifier="EditItem" trigger="accessoryAction" id="UEz-3u-fNW"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -68,7 +71,7 @@
         <!--Add Item-->
         <scene sceneID="PXD-fy-GE6">
             <objects>
-                <tableViewController id="yFM-y3-dCl" customClass="AddItemViewController" customModule="Checklists" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="yFM-y3-dCl" customClass="ItemDetailV" customModule="Checklists" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="DnU-k3-TML">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -111,7 +114,7 @@
                                 <action selector="cancel" destination="yFM-y3-dCl" id="KIE-AM-Cqy"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="NZr-oU-pAj">
+                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Done" id="NZr-oU-pAj">
                             <connections>
                                 <action selector="done" destination="yFM-y3-dCl" id="zHl-ug-QQG"/>
                             </connections>
@@ -146,4 +149,7 @@
             <point key="canvasLocation" x="-285" y="54"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="UEz-3u-fNW"/>
+    </inferredMetricsTieBreakers>
 </document>
