@@ -30,7 +30,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         let newRowIndex = items.count
         items.append(item)
         let indexPath = IndexPath(row: newRowIndex, section: 0)
-        let indexPaths = [indexPath]
+        //let indexPaths = [indexPath]
         tableView.insertRows(at: [indexPath], with: .automatic)
         
         navigationController?.popViewController(animated: true)
