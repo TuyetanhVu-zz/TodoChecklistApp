@@ -51,11 +51,10 @@ class ItemDetailV: UITableViewController, UITextFieldDelegate {
             itemToEdit.text = textField.text!
             delegate?.itemDetailViewController(_controller: self, didFinishEditing: itemToEdit)
         } else {
-            let item = ChecklistItem()
-            item.text = textField.text!
-            item.checked = false
+            let item = ChecklistItem(text: textField.text!, checked: false)
             delegate?.itemDetailViewController(_controller: self, didFinishAdding: item)
         }
+		
     }
     
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {

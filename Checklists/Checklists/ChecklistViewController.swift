@@ -9,10 +9,36 @@
 import UIKit
 
 class ChecklistViewController: UITableViewController, ItemDetailViewControllerDelegate {
-    
+	var items: [ChecklistItem]  // Data source for table
+
     func itemDetailViewControllerDidCancel(_ controller: ItemDetailV) {
         navigationController?.popViewController(animated: true)
     }
+	
+	func saveChecklistItemsToUserStorage() {
+		let userDefaults = UserDefaults.standard // get a connection object to store data by a key name
+		let encodedData: Data = NSKeyedArchiver.archivedData(withRootObject: items) // loads items from user default object with lookup name
+		userDefaults.set(encodedData, forKey: "checklistArchive") // Save the archive from the prepared variable
+		userDefaults.synchronize()
+		
+		print("SAVED CHECKLIST")
+	}
+	
+	func loadChecklistItemsFromUserStorage() {
+		 items = [ChecklistItem]()
+		let userDefaults = UserDefaults.standard // get a connection object to load data by a key name
+		
+		// check and guard against using the archive. If nothing is there for the key name checklistArchive the return
+		guard userDefaults.object(forKey: "checklistArchive") != nil else {
+			return
+		}
+		
+		let decoded  = userDefaults.object(forKey: "checklistArchive") as! Data // gets items from user default object by lookup name
+		items = NSKeyedUnarchiver.unarchiveObject(with: decoded) as! [ChecklistItem] // load the archive to our local variable
+		
+		print("LOADED CHECKLIST")
+
+	}
     
     func itemDetailViewController(_controller: ItemDetailV, didFinishEditing item: ChecklistItem) {
         if let index = items.index(of: item) {
@@ -22,7 +48,7 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
             }
         }
         navigationController?.popViewController(animated: true)
-
+		saveChecklistItemsToUserStorage() // saves after user edits
     }
     
     func itemDetailViewController(_controller: ItemDetailV, didFinishAdding item: ChecklistItem) {
@@ -34,14 +60,14 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         tableView.insertRows(at: [indexPath], with: .automatic)
         
         navigationController?.popViewController(animated: true)
+		saveChecklistItemsToUserStorage() // saves after user adds
     }
     
-    var items: [ChecklistItem]
 
     @IBAction func addItem(_ sender: Any) {
         let newRowIndex = items.count
         
-        let item = ChecklistItem()
+        let item = ChecklistItem(text: "", checked: false) // add an empty item
         //item.text = "I am a new row"
         var titles = ["Empty todo item", "Generic todo item", "First todo: fill me out", "I need something todo",
                       "Much todo about nothing"]
@@ -61,7 +87,11 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
     required init?(coder aDecoder: NSCoder) {
         
         items = [ChecklistItem]()
-        
+		
+		/*
+		// add some items for testing
+		// commented out so the table doesnt have anything in it when it loads
+		
         let row0Item = ChecklistItem()
         row0Item.text  = "Walk the dog"
         row0Item.checked = false
@@ -101,7 +131,12 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         row7Item.text  = "Make coffe"
         row7Item.checked = false
         items.append(row7Item)
+		
+		*/
         super .init(coder: aDecoder)
+
+		loadChecklistItemsFromUserStorage() // load what the user stored before in UserDefaults
+		
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -122,6 +157,8 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         navigationController?.navigationBar.prefersLargeTitles = true
+
+		loadChecklistItemsFromUserStorage() // loads what user stored in UserDefaults on app launch
     }
 
     override func didReceiveMemoryWarning() {
@@ -134,8 +171,8 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
         items.remove(at: indexPath.row)
         //let indexPaths = [indexPath]
         //tableView.deleteRows(at: indexPaths, with: .automatic)
-        
-        tableView.reloadData()
+
+		tableView.reloadData()
     }
     
     
@@ -180,7 +217,6 @@ class ChecklistViewController: UITableViewController, ItemDetailViewControllerDe
             label.text = ""
         }
     }
-    
 
 }
 
